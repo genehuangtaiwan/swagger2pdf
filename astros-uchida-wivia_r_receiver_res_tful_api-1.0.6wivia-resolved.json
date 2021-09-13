@@ -3901,6 +3901,8 @@
               1001,
               1002,
               1003,
+	      1004,
+	      1005,
               1100,
               1200
             ],
@@ -3910,6 +3912,8 @@
               "1001,User or APP Key is unavailable",
               "1002,API internal exception",
               "1003,Lack parameter",
+	      "1004,Basic Auth or APP Key is unavailable",
+	      "1005,User or password is unavailable",
               "1100,The input value is unavailable",
               "1200,The input file is unavailable"
             ]
