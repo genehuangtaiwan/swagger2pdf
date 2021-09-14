@@ -54,7 +54,7 @@
     }
   ],
   "paths": {
-    "/device": {
+    "/api/v1/device": {
       "get": {
         "tags": [
           "Device"
@@ -105,7 +105,7 @@
         }
       }
     },
-    "/device/admin/password": {
+    "/api/v1/device/admin/password": {
       "put": {
         "tags": [
           "Administration"
@@ -202,7 +202,7 @@
         ]
       }
     },
-    "/device/admin/apikey": {
+    "/api/v1/device/admin/apikey": {
       "put": {
         "tags": [
           "Administration"
@@ -278,7 +278,7 @@
         ]
       }
     },
-    "/device/admin/configuration": {
+    "/api/v1/device/admin/configuration": {
       "get": {
         "tags": [
           "Administration"
@@ -427,7 +427,7 @@
         }
       }
     },
-    "/device/admin/firmware": {
+    "/api/v1/device/admin/firmware": {
       "get": {
         "tags": [
           "Administration"
@@ -571,7 +571,7 @@
         }
       }
     },
-    "/device/general/name": {
+    "/api/v1/device/general/name": {
       "get": {
         "tags": [
           "General"
@@ -727,7 +727,7 @@
         }
       }
     },
-    "/device/general/language": {
+    "/api/v1/device/general/language": {
       "get": {
         "tags": [
           "General"
@@ -896,7 +896,7 @@
         }
       }
     },
-    "/device/general/logincode": {
+    "/api/v1/device/general/logincode": {
       "get": {
         "tags": [
           "General"
@@ -1077,7 +1077,7 @@
         }
       }
     },
-    "/device/general/remoteview": {
+    "/api/v1/device/general/remoteview": {
       "get": {
         "tags": [
           "General"
@@ -1241,7 +1241,7 @@
         }
       }
     },
-    "/device/general/wallpaper": {
+    "/api/v1/device/general/wallpaper": {
       "get": {
         "tags": [
           "General"
@@ -1292,7 +1292,7 @@
         }
       }
     },
-    "/device/general/wallpaper/{id}": {
+    "/api/v1/device/general/wallpaper/{id}": {
       "put": {
         "tags": [
           "General"
@@ -1479,7 +1479,7 @@
         }
       }
     },
-    "/device/display": {
+    "/api/v1/device/display": {
       "post": {
         "tags": [
           "Display"
@@ -1560,7 +1560,7 @@
         }
       }
     },
-    "/device/display/resolution": {
+    "/api/v1/device/display/resolution": {
       "get": {
         "tags": [
           "Display"
@@ -1703,7 +1703,7 @@
         }
       }
     },
-    "/device/time/ntp": {
+    "/api/v1/device/time/ntp": {
       "get": {
         "tags": [
           "Time"
@@ -1869,7 +1869,7 @@
         }
       }
     },
-    "/device/time/zone": {
+    "/api/v1/device/time/zone": {
       "get": {
         "tags": [
           "Time"
@@ -2003,7 +2003,7 @@
         }
       }
     },
-    "/device/time": {
+    "/api/v1/device/time": {
       "get": {
         "tags": [
           "Time"
@@ -2138,7 +2138,7 @@
         }
       }
     },
-    "/device/network/ethernet/macaddress": {
+    "/api/v1/device/network/ethernet/macaddress": {
       "get": {
         "tags": [
           "Network"
@@ -2189,7 +2189,7 @@
         }
       }
     },
-    "/device/network/ethernet": {
+    "/api/v1/device/network/ethernet": {
       "get": {
         "tags": [
           "Network"
@@ -2377,7 +2377,7 @@
         }
       }
     },
-    "/device/network/wifi/macaddress": {
+    "/api/v1/device/network/wifi/macaddress": {
       "get": {
         "tags": [
           "Network"
@@ -2428,7 +2428,7 @@
         }
       }
     },
-    "/device/network/wifi": {
+    "/api/v1/device/network/wifi": {
       "get": {
         "tags": [
           "Network"
@@ -2652,7 +2652,7 @@
         }
       }
     },
-    "/device/power/mode": {
+    "/api/v1/device/power/mode": {
       "get": {
         "tags": [
           "Power"
@@ -2808,7 +2808,7 @@
         }
       }
     },
-    "/device/power/reboot": {
+    "/api/v1/device/power/reboot": {
       "post": {
         "tags": [
           "Power"
