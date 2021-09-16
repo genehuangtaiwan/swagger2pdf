@@ -7,7 +7,36 @@
   },
   "servers": [
     {
-      "url": "/"
+      "url": "https://virtserver.swaggerhub.com/hamersun/api.device.astrogate/1.0.5",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "{protocol}://{environment}:{port}/api/v1",
+      "description": "Uchida WIVIA R+ Receiver",
+      "variables": {
+        "protocol": {
+          "description": "The Data Set API is accessible via https and http",
+          "default": "https",
+          "enum": [
+            "https",
+            "http"
+          ]
+        },
+        "environment": {
+          "default": "AS201-000a",
+          "enum": [
+            "AS201-000a",
+            "AS201-000a-staging"
+          ]
+        },
+        "port": {
+          "default": "443",
+          "enum": [
+            "443",
+            "8443"
+          ]
+        }
+      }
     }
   ],
   "security": [
@@ -332,7 +361,8 @@
                 "$ref": "#/components/schemas/admin_configuration_body"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -1923,7 +1953,7 @@
           {
             "name": "value",
             "in": "query",
-            "description": "Its resolution: 0(Auto), 1(3840x2160), 2(1920x1080), 3(1280x720), 4(1024x768), 5(1920x1200)",
+            "description": "Output resolution: 0(Auto), 1(3840x2160), 2(1920x1080), 3(1280x720), 4(1024x768), 5(1920x1200). HDMI only allows 0, 1, 2, 3, 4, 5. VGA enabled allows 2, 3, 4.",
             "required": true,
             "style": "form",
             "explode": true,
@@ -3513,10 +3543,11 @@
         "properties": {
           "resolution": {
             "type": "integer",
-            "description": "0(Auto), 1(3840x2160), 2(1920x1080), 3(1280x720), 4(1024x768), 5(1920x1080)",
+            "description": "-1(Not Connected or undefined resolution), 0(Auto), 1(3840x2160), 2(1920x1080), 3(1280x720), 4(1024x768), 5(1920x1200)",
             "format": "int32",
             "example": 0,
             "enum": [
+              -1,
               0,
               1,
               2,
@@ -3901,8 +3932,8 @@
               1001,
               1002,
               1003,
-	      1004,
-	      1005,
+              1004,
+              1005,
               1100,
               1200
             ],
@@ -3912,8 +3943,8 @@
               "1001,User or APP Key is unavailable",
               "1002,API internal exception",
               "1003,Lack parameter",
-	      "1004,Basic Auth or APP Key is unavailable",
-	      "1005,User or password is unavailable",
+              "1004,Basic Auth or APP Key is unavailable",
+              "1005,User or password is unavailable",
               "1100,The input value is unavailable",
               "1200,The input file is unavailable"
             ]
