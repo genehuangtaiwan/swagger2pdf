@@ -3567,10 +3567,11 @@
         "properties": {
           "resolution": {
             "type": "integer",
-            "description": "2(1920x1080), 3(1280x720), 4(1024x768)",
+            "description": "-1(Not Connected or undefined resolution), 2(1920x1080), 3(1280x720), 4(1024x768)",
             "format": "int32",
             "example": 2,
             "enum": [
+              -1,
               2,
               3,
               4
