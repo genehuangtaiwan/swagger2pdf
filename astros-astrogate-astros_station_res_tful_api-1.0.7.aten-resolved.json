@@ -1,0 +1,4232 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Astrogate ASTROS Station RESTful API",
+    "description": "The API for ASTROS Station",
+    "contact": {
+      "name": "System Developer",
+      "url": "https://www.astrogate.com",
+      "email": "systemdeveloper@astrogate.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.7.aten"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/hamersun/api.device.astrogate/1.0.5",
+      "description": "SwaggerHub API Auto Mocking"
+    },
+    {
+      "url": "{protocol}://{environment}:{port}/api/v1",
+      "description": "Astrogate ASTROS Station",
+      "variables": {
+        "protocol": {
+          "description": "The Data Set API is accessible via https and http",
+          "default": "https",
+          "enum": [
+            "https",
+            "http"
+          ]
+        },
+        "environment": {
+          "default": "AS201-000a",
+          "enum": [
+            "AS201-000a",
+            "AS201-000a-staging"
+          ]
+        },
+        "port": {
+          "default": "443",
+          "enum": [
+            "443",
+            "8443"
+          ]
+        }
+      }
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyAuth": []
+    }
+  ],
+  "paths": {
+    "/device": {
+      "get": {
+        "tags": [
+          "Device"
+        ],
+        "description": "Get the information of the device",
+        "operationId": "getDevice",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "grant the access token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/admin/password": {
+      "put": {
+        "tags": [
+          "Administration"
+        ],
+        "description": "Change the password of the account",
+        "operationId": "setPassword",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "The new password for the account.",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "pattern": "^[A-Za-z0-9]{1,16}$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1004": {
+                    "$ref": "#/components/examples/failed_1004"
+                  },
+                  "failed_1005": {
+                    "$ref": "#/components/examples/failed_1005"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BasicAuth": []
+          }
+        ]
+      }
+    },
+    "/device/admin/apikey": {
+      "put": {
+        "tags": [
+          "Administration"
+        ],
+        "description": "Generate the new API Key of the account",
+        "operationId": "generateApiKey",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1004": {
+                    "$ref": "#/components/examples/failed_1004"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ]
+      }
+    },
+    "/device/admin/configuration": {
+      "get": {
+        "tags": [
+          "Administration"
+        ],
+        "description": "Get the configration file of the system",
+        "operationId": "getConfigurationFile",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Administration"
+        ],
+        "description": "Import the configration file of the system",
+        "operationId": "setConfigurationFile",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/admin_configuration_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/admin/firmware": {
+      "get": {
+        "tags": [
+          "Administration"
+        ],
+        "description": "Get the system firmware version. operationId: getFirmwareVersion parameters: - $ref: ",
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Administration"
+        ],
+        "description": "Update the system firmware. If the request contains the binary file, it indicates to perform local firmware uploading and updating. operationId: updateFirmware parameters: - $ref: ",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/admin_firmware_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/general/name": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "description": "Get the name of the device.",
+        "operationId": "getDeviceName",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error. If it is successful, you can get its name from 'data' field in the response content.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/name_get_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "General"
+        ],
+        "description": "Set the name of the device. Only support a-z, A-Z, 0-9 and \"-\" characters and max length is 16.",
+        "operationId": "setDeviceName",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "The value for the device name",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "pattern": ".*",
+              "type": "string",
+              "example": "AS201-00aa"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/general/language": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "description": "Get language setting for the device",
+        "operationId": "getLanguage",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "summary": "Success",
+                    "value": {
+                      "data": 1,
+                      "errorCode": 0,
+                      "isSuccess": true,
+                      "model": "AS-201"
+                    }
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "General"
+        ],
+        "description": "Set language for the device",
+        "operationId": "setLanguage",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "The value for the language. There are 4 options: English(0), 正體中文(1), 简体中文(2)",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/general/logincode": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "description": "Get login code setting for the device",
+        "operationId": "getLoginCode",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_3"
+                },
+                "examples": {
+                  "success_0": {
+                    "summary": "Success",
+                    "value": {
+                      "data": {
+                        "code": 1234,
+                        "type": 1
+                      },
+                      "errorCode": 0,
+                      "isSuccess": true,
+                      "model": "AS-201"
+                    }
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "General"
+        ],
+        "description": "Set login code setting for the device.",
+        "operationId": "setLoginCode",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "The login code type. Its value should be 0(random), 1(no code), 2(fixed).",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            }
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "description": "The login code",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "pattern": "^[0-9]{4}$",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/general/remoteview": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "description": "Get the option of remote view",
+        "operationId": "getRemoteViewOption",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "summary": "Success",
+                    "value": {
+                      "data": "true",
+                      "errorCode": 0,
+                      "isSuccess": true,
+                      "model": "AS-201",
+                      "rebootRequired": false
+                    }
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "General"
+        ],
+        "description": "Set the option of remote view",
+        "operationId": "setRemoteViewOption",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "Enable or disable remote view",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/general/wallpaper": {
+      "get": {
+        "tags": [
+          "General"
+        ],
+        "description": "Get the current setting of wallpaper.",
+        "operationId": "getWallpaper",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_4"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/general/wallpaper/{id}": {
+      "put": {
+        "tags": [
+          "General"
+        ],
+        "description": "Set the wallpaper in the device. The image content of the first 2 positions (0 and 1) can't be replaced. For current active wallpaper, it can't be replaced.",
+        "operationId": "setWallpaper",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "maximum": 5,
+              "minimum": 2,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/wallpaper_id_body"
+              },
+              "encoding": {
+                "wallpaperImage": {
+                  "contentType": "image/png, image/jpeg",
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "General"
+        ],
+        "description": "Delete the wallpaper in the device. The image content of the first 2 positions (0 and 1) can't be deleted. For current active wallpaper, it can't be deleted.",
+        "operationId": "deleteWallpaper",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "maximum": 5,
+              "minimum": 2,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/display": {
+      "post": {
+        "tags": [
+          "Display"
+        ],
+        "description": "Turn on or off display",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "true: On; false: OFF",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/display/resolution": {
+      "get": {
+        "tags": [
+          "Display"
+        ],
+        "description": "Get HDMI and VGA output resolution.",
+        "operationId": "getResolution",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_5"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Display"
+        ],
+        "description": "Set HDMI and VGA resolution. If 'enableVGA' is true, the max resolution only could be set to 1920x1080.",
+        "operationId": "setResolution",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "Its resolution: 0(Auto), 1(3840x2160), 2(1920x1080), 3(1280x720), 4(1024x768), 5(1920x1200)",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
+            }
+          },
+          {
+            "name": "enableVGA",
+            "in": "query",
+            "description": "Whether to enable or disable VGA: true or false",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "summary": "Success",
+                    "value": {
+                      "data": "",
+                      "errorCode": 0,
+                      "isSuccess": true,
+                      "model": "AS-201",
+                      "rebootRequired": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/time/ntp": {
+      "get": {
+        "tags": [
+          "Time"
+        ],
+        "description": "Get the network time server setting",
+        "operationId": "getNTP",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_6"
+                },
+                "example": {
+                  "data": {
+                    "auto": true,
+                    "ip": "time.google.com",
+                    "port": 123
+                  },
+                  "errorCode": 0,
+                  "isSuccess": true,
+                  "model": "AS-201"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Time"
+        ],
+        "operationId": "setNTP",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ip",
+            "in": "query",
+            "description": "The network address of the NTP server",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/ip"
+            }
+          },
+          {
+            "name": "port",
+            "in": "query",
+            "description": "The port number of the NTP server",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "auto",
+            "in": "query",
+            "description": "Whether to automatically update system time",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/time/zone": {
+      "get": {
+        "tags": [
+          "Time"
+        ],
+        "description": "Get timezone",
+        "operationId": "getTimezone",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_7"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Time"
+        ],
+        "description": "Set timezone",
+        "operationId": "setTimezone",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "description": "The time zone.",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/TimeZone"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/time": {
+      "get": {
+        "tags": [
+          "Time"
+        ],
+        "description": "Get time",
+        "operationId": "getTime",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_8"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Time"
+        ],
+        "description": "Set time",
+        "operationId": "setTime",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "value",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "pattern": "^([2][0]\\d{2}-([0]\\d|[1][0-2])-([0-2]\\d|[3][0-1])T([0-1]\\d|[2][0-3]):[0-5]\\d:[0-5]\\d)$",
+              "type": "string",
+              "example": "2000-01-01T10:05:00"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/network/ethernet/macaddress": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "description": "Get the ethernet mac address",
+        "operationId": "getEthernetMacAddress",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_9"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/network/ethernet": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "description": "Get the setting of ethernet",
+        "operationId": "getEthernetSetting",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_10"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Network"
+        ],
+        "description": "Set ethernet setting",
+        "operationId": "setEthernetSetting",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "enableDHCP",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "ip",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          },
+          {
+            "name": "mask",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          },
+          {
+            "name": "gateway",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          },
+          {
+            "name": "dns1",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          },
+          {
+            "name": "dns2",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "format": "ipv4"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/network/wifi/macaddress": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "description": "Get the WiFi mac address",
+        "operationId": "getWiFiMacAddress",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/network/wifi": {
+      "get": {
+        "tags": [
+          "Network"
+        ],
+        "description": "Get the setting of WiFi",
+        "operationId": "getWiFiSetting",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_11"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Network"
+        ],
+        "description": "Set WiFi AP mode",
+        "operationId": "setWiFiSetting",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "AP",
+                "false"
+              ]
+            }
+          },
+          {
+            "name": "hideSSID",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "security",
+            "in": "query",
+            "description": "The security mode. 0 indicates non; 1 indicates WPA2-PSK",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "The authorized password of WPA2",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "pattern": "^[A-Za-z0-9]{8,16}$",
+              "type": "string"
+            }
+          },
+          {
+            "name": "band",
+            "in": "query",
+            "description": "802.11 freqency band. 0: 2.4GHz; 1: 5GHz",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "name": "networking_mode",
+            "in": "query",
+            "description": "0(NAT), 1(Bridge)",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "name": "gatekeeper",
+            "in": "query",
+            "description": "0(Allow All), 1(Internet Only), 2(Block All)",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                0,
+                1,
+                2
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/power/mode": {
+      "get": {
+        "tags": [
+          "Power"
+        ],
+        "operationId": "getPowerButtonBehavior",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_12"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Power"
+        ],
+        "operationId": "setPowerButtonBehavior",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "description": "power button behavior. 0(sleep mode); 1(suspend mode). If 1(suspend mode) is set, the timeout would be ignored.",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                0,
+                1
+              ]
+            }
+          },
+          {
+            "name": "timeout",
+            "in": "query",
+            "description": "How long to go to sleep mode if there are no opertions. Its time unit is minute. -1 indicates never. If mode is set to 0 (sleep), the timeout parameter is must.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "enum": [
+                5,
+                15,
+                30,
+                60,
+                -1
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/device/power/reboot": {
+      "post": {
+        "tags": [
+          "Power"
+        ],
+        "description": "Perform system reboot.",
+        "operationId": "rebootSystem",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "delay",
+            "in": "query",
+            "description": "Delay interval in minutes (optional) to perform system reboot. If you do not specify delay, then the reboot would start immediately.",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "minimum": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "reason",
+            "in": "query",
+            "description": "Reason for performing reboot (optional).",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The request URL is valid and handled. Whether it is successful, you need to check the 'errorCode' of JSON-style string in the response content. 0 indicates success; otherwise, it is error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneralResponse"
+                },
+                "examples": {
+                  "success_0": {
+                    "$ref": "#/components/examples/default_put_success_response"
+                  },
+                  "failed_1000": {
+                    "$ref": "#/components/examples/failed_1000"
+                  },
+                  "failed_1001": {
+                    "$ref": "#/components/examples/failed_1001"
+                  },
+                  "failed_1002": {
+                    "$ref": "#/components/examples/failed_1002"
+                  },
+                  "failed_1003": {
+                    "$ref": "#/components/examples/failed_1003"
+                  },
+                  "failed_1100": {
+                    "$ref": "#/components/examples/failed_1100"
+                  },
+                  "failed_1200": {
+                    "$ref": "#/components/examples/failed_1200"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPErrorResponse"
+                },
+                "example": {
+                  "data": "",
+                  "errorCode": 404,
+                  "errorMsg": "Not Found",
+                  "isSuccess": false,
+                  "model": "AS-201",
+                  "rebootRequired": false
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GeneralResponse": {
+        "required": [
+          "data",
+          "errorCode",
+          "isSuccess",
+          "model",
+          "rebootRequired"
+        ],
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "string",
+                "description": "It can be a JSON-style string. For POST or PUT methods, data would be empty.",
+                "example": ""
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "errorMsg": {
+                "type": "string",
+                "example": ""
+              },
+              "isSuccess": {
+                "type": "boolean",
+                "example": true
+              },
+              "model": {
+                "type": "string",
+                "example": "AS-201"
+              },
+              "rebootRequired": {
+                "type": "boolean",
+                "description": "The device needs to reboot to apply this new change.",
+                "example": false
+              }
+            }
+          }
+        ]
+      },
+      "HTTPErrorResponse": {
+        "required": [
+          "data",
+          "errorCode",
+          "isSuccess",
+          "model"
+        ],
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer",
+            "description": "It would be the same as HTTP Status Code.",
+            "format": "int32"
+          },
+          "errorMsg": {
+            "type": "string",
+            "example": ""
+          },
+          "isSuccess": {
+            "type": "boolean",
+            "example": false
+          },
+          "model": {
+            "type": "string"
+          }
+        }
+      },
+      "AccessTokenResponse": {
+        "type": "object",
+        "properties": {
+          "expiredTime": {
+            "type": "integer",
+            "description": "Epoch time; It is the number of seconds that have elapsed since the Unix epoch, minus leap seconds; the Unix epoch is 00:00:00 UTC on 1 January 1970. -1 indicates never.",
+            "format": "int64",
+            "example": 1632848626
+          },
+          "scope": {
+            "type": "string",
+            "example": "full",
+            "enum": [
+              "full",
+              "view_only"
+            ]
+          },
+          "token": {
+            "pattern": "^[A-Za-z0-9]{16}$",
+            "type": "string",
+            "example": "zxcvfdsa1234rewq"
+          }
+        }
+      },
+      "ApiKeyInfo": {
+        "type": "object",
+        "properties": {
+          "expiredTime": {
+            "type": "integer",
+            "description": "Epoch time; It is the number of seconds that have elapsed since the Unix epoch, minus leap seconds; the Unix epoch is 00:00:00 UTC on 1 January 1970. -1 indicates never.",
+            "format": "int64",
+            "example": 1632848626
+          },
+          "scope": {
+            "type": "string",
+            "example": "full",
+            "enum": [
+              "full",
+              "view_only"
+            ]
+          },
+          "token": {
+            "pattern": "^[A-Za-z0-9]{16}$",
+            "type": "string",
+            "example": "zxcvfdsa1234rewq"
+          }
+        }
+      },
+      "FileDescription": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "wallpaper",
+              "firmware",
+              "application",
+              "text"
+            ]
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "version": {
+            "type": "string"
+          },
+          "security": {
+            "type": "boolean",
+            "description": "Is the file confidential?",
+            "example": false
+          }
+        }
+      },
+      "DeviceInfo": {
+        "type": "object",
+        "properties": {
+          "ethMacAddress": {
+            "pattern": "^([0-9a-f]{2}:){5}([0-9a-f]{2})$",
+            "type": "string",
+            "example": "01:02:a1:bc:12:dd"
+          },
+          "fwVersion": {
+            "pattern": "^\\d{1,2}.\\d{1,2}.\\d{1,3}.\\d{1,3}$",
+            "type": "string",
+            "description": "major.minor.patch.build",
+            "example": "1.0.3.123"
+          },
+          "model": {
+            "type": "string",
+            "example": "AS-201"
+          },
+          "name": {
+            "maxLength": 16,
+            "minLength": 1,
+            "pattern": "^[A-Za-z\\d\\-]{1,16}$",
+            "type": "string",
+            "example": "AS201-00aa"
+          },
+          "sn": {
+            "type": "string",
+            "example": "AS201WW123455555"
+          },
+          "status": {
+            "type": "string",
+            "description": "defined status: offline, standby, connected, sharing, sleeping, updating. The field may contains multiple status which would be separated by \",\".",
+            "example": "online"
+          },
+          "uptime": {
+            "type": "integer",
+            "description": "uptime in seconds after booting up.",
+            "format": "int64",
+            "example": 5555
+          }
+        }
+      },
+      "DeviceStaticInfo": {
+        "required": [
+          "ethMacAddress",
+          "model",
+          "sn"
+        ],
+        "type": "object",
+        "properties": {
+          "sn": {
+            "type": "string",
+            "example": "AS201WW123455555"
+          },
+          "model": {
+            "type": "string",
+            "example": "AS-201"
+          },
+          "ethMacAddress": {
+            "pattern": "^([0-9a-f]{2}:){5}([0-9a-f]{2})$",
+            "type": "string",
+            "example": "01:02:a1:bc:12:dd"
+          }
+        }
+      },
+      "DeviceMutableInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "maxLength": 16,
+            "minLength": 1,
+            "pattern": "^[A-Za-z\\d\\-]{1,16}$",
+            "type": "string",
+            "example": "AS201-00aa"
+          },
+          "fwVersion": {
+            "pattern": "^\\d{1,2}.\\d{1,2}.\\d{1,3}.\\d{1,3}$",
+            "type": "string",
+            "description": "major.minor.patch.build",
+            "example": "1.0.3.123"
+          },
+          "uptime": {
+            "type": "integer",
+            "description": "uptime in seconds after booting up.",
+            "format": "int64",
+            "example": 5555
+          },
+          "status": {
+            "type": "string",
+            "description": "defined status: offline, standby, connected, sharing, sleeping, updating. The field may contains multiple status which would be separated by \",\".",
+            "example": "online"
+          }
+        }
+      },
+      "GeneralSetting": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "pattern": "^[A-Za-z\\d\\-]{1,16}$",
+            "type": "string",
+            "example": "AS201-00aa"
+          },
+          "language": {
+            "type": "integer",
+            "description": "The value for the language. There are 3 options: English(0), 正體中文(1), 简体中文(2)",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          "loginCodeType": {
+            "type": "integer",
+            "description": "0(random), 1(no code), 2(fixed)",
+            "format": "int32",
+            "example": 1,
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          "loginCode": {
+            "pattern": "^[0-9]{4}$",
+            "type": "string",
+            "example": "1234"
+          },
+          "allowRemoteView": {
+            "type": "boolean",
+            "example": true
+          },
+          "wallpapers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BackgroundImage"
+            }
+          }
+        }
+      },
+      "Wallpaper": {
+        "$ref": "#/components/schemas/BackgroundImage"
+      },
+      "BackgroundImage": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "description": "The index of background image files in the device. Its index starts from 0 to 5.",
+            "format": "int32",
+            "example": 3
+          },
+          "image": {
+            "type": "string",
+            "description": "The thumbnail of the image or the uuid of the image stored on the file server."
+          }
+        },
+        "additionalProperties": false
+      },
+      "BackgroundImageUrl": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "description": "The index of background image files in the device. Its index starts from 0 to 5.",
+            "format": "int32",
+            "example": 3
+          },
+          "path": {
+            "type": "string",
+            "description": "The downloded url of the specified background image file.",
+            "format": "uri"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DisplaySetting": {
+        "type": "object",
+        "properties": {
+          "hdmi": {
+            "$ref": "#/components/schemas/HDMISetting"
+          },
+          "vga": {
+            "$ref": "#/components/schemas/VGASetting"
+          }
+        }
+      },
+      "HDMISetting": {
+        "type": "object",
+        "properties": {
+          "cec": {
+            "type": "boolean",
+            "example": false
+          },
+          "resolution": {
+            "type": "integer",
+            "description": "0(Auto), 1(3840x2160), 2(1920x1080), 3(1280x720), 4(1024x768), 5(1920x1200)",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        }
+      },
+      "VGASetting": {
+        "type": "object",
+        "properties": {
+          "enable": {
+            "type": "boolean",
+            "example": false
+          },
+          "resolution": {
+            "type": "integer",
+            "description": "2(1920x1080), 3(1280x720), 4(1024x768)",
+            "format": "int32",
+            "example": 2,
+            "enum": [
+              2,
+              3,
+              4
+            ]
+          }
+        }
+      },
+      "TimeSetting": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "string",
+            "description": "YYYY:MM::DDThh:mm:ss.sTZD. Follow the RFC3339. Refer to https://tools.ietf.org/html/rfc3339#section-5.6. date-time = full-date \"T\" full-time, where full-date = date-fullyear \"-\" date-month \"-\" date-mday and full-time = partial-time time-offset.",
+            "format": "date-time",
+            "example": "1970-01-01T10:05:08+01:00"
+          },
+          "clockFormatIn24hr": {
+            "type": "boolean"
+          },
+          "zone": {
+            "type": "string",
+            "description": "time zone. You can refer to https://github.com/unicode-org/cldr/blob/latest/common/bcp47/timezone.xml",
+            "example": "Asia/Taipei"
+          },
+          "ntp": {
+            "type": "object",
+            "example": [
+              {
+                "ip": "time.stdtime.gov.tw",
+                "port": 123
+              },
+              {
+                "ip": "216.239.35.42",
+                "port": 123
+              }
+            ],
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DeviceAddressForm1"
+              },
+              {
+                "$ref": "#/components/schemas/DeviceAddressForm2"
+              }
+            ]
+          },
+          "autoSync": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "DeviceAddressForm1": {
+        "required": [
+          "ip",
+          "port"
+        ],
+        "type": "object",
+        "properties": {
+          "ip": {
+            "type": "string",
+            "description": "hostname",
+            "format": "hostname",
+            "example": "time.stdtime.gov.tw"
+          },
+          "port": {
+            "maximum": 65535,
+            "type": "integer",
+            "description": "port number",
+            "format": "int32",
+            "example": 123
+          }
+        }
+      },
+      "DeviceAddressForm2": {
+        "required": [
+          "ip",
+          "port"
+        ],
+        "type": "object",
+        "properties": {
+          "ip": {
+            "type": "string",
+            "description": "IP",
+            "format": "ipv4",
+            "example": "216.239.35.4"
+          },
+          "port": {
+            "maximum": 65535,
+            "type": "integer",
+            "description": "port number",
+            "format": "int32",
+            "example": 123
+          }
+        }
+      },
+      "NetworkSetting": {
+        "type": "object",
+        "properties": {
+          "wifi": {
+            "$ref": "#/components/schemas/WifiSetting"
+          },
+          "ethernet": {
+            "$ref": "#/components/schemas/EthernetSetting"
+          }
+        }
+      },
+      "WifiSetting": {
+        "type": "object",
+        "properties": {
+          "band": {
+            "type": "integer",
+            "description": "802.11 freqency band. 1: 2.4GHz; 1: 5GHz",
+            "format": "int32",
+            "example": 1,
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "gatekeeper": {
+            "type": "integer",
+            "description": "The rule of gatekeeper: 0(Allow All), 1(Internet Only), 2(Block All)",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          },
+          "hideSSID": {
+            "type": "boolean",
+            "example": false
+          },
+          "mode": {
+            "type": "string",
+            "example": "AP",
+            "enum": [
+              "AP",
+              "STA",
+              "false"
+            ]
+          },
+          "networking_mode": {
+            "type": "integer",
+            "description": "The networking mode: 0(NAT), 1(Bridge)",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "password": {
+            "pattern": "^[A-Za-z0-9]{8,16}$",
+            "type": "string",
+            "description": "The authorized password of WPA2",
+            "example": "12345678"
+          },
+          "security": {
+            "type": "integer",
+            "description": "wireless authentication method. 0(none), 1(WPA2-PSK)",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "ssid": {
+            "pattern": "^[A-Za-z\\d\\-]{1,16}$",
+            "type": "string",
+            "example": "AS201-00aa"
+          }
+        }
+      },
+      "EthernetSetting": {
+        "required": [
+          "enableDHCP"
+        ],
+        "type": "object",
+        "properties": {
+          "enableDHCP": {
+            "type": "boolean",
+            "example": true
+          },
+          "setting": {
+            "$ref": "#/components/schemas/StaticIPConfiguration"
+          }
+        }
+      },
+      "StaticIPConfiguration": {
+        "type": "object",
+        "properties": {
+          "dns1": {
+            "type": "string",
+            "format": "ipv4",
+            "example": "192.168.1.1"
+          },
+          "dns2": {
+            "type": "string",
+            "format": "ipv4",
+            "example": "8.8.8.8"
+          },
+          "gateway": {
+            "type": "string",
+            "format": "ipv4",
+            "example": "192.168.1.1"
+          },
+          "ip": {
+            "type": "string",
+            "format": "ipv4",
+            "example": "192.168.1.123"
+          },
+          "mask": {
+            "type": "string",
+            "format": "ipv4",
+            "example": "255.255.255.0"
+          }
+        }
+      },
+      "PowerSetting": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "integer",
+            "description": "power button behavior. 0(sleep mode), 1(suspend mode)",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "timeout": {
+            "type": "integer",
+            "description": "how long to go to sleep mode if there are no opertions. Its time unit is minute. -1 indicates never",
+            "format": "int32",
+            "example": 30,
+            "enum": [
+              5,
+              15,
+              30,
+              60,
+              -1
+            ]
+          }
+        }
+      },
+      "TimeZone": {
+        "type": "string",
+        "example": "Asia/Taipei",
+        "enum": [
+          "Pacific/Midway",
+          "Pacific/Honolulu",
+          "America/Anchorage",
+          "America/Los_Angeles",
+          "America/Tijuana",
+          "America/Phoenix",
+          "America/Chihuahua",
+          "America/Denver",
+          "America/Costa_Rica",
+          "America/Regina",
+          "America/Chicago",
+          "America/Mexico_City",
+          "America/Bogota",
+          "America/New_York",
+          "America/Caracas",
+          "America/Barbados",
+          "America/Manaus",
+          "America/Santiago",
+          "America/Halifax",
+          "America/Recife",
+          "America/Sao_Paulo",
+          "America/Argentina/Buenos_Aires",
+          "America/Montevideo",
+          "America/St_Johns",
+          "Atlantic/South_Georgia",
+          "Atlantic/Cape_Verde",
+          "America/Godthab",
+          "Atlantic/Azores",
+          "Africa/Casablanca",
+          "Europe/London",
+          "Africa/Brazzaville",
+          "Europe/Amsterdam",
+          "Europe/Belgrade",
+          "Europe/Brussels",
+          "Europe/Madrid",
+          "Europe/Sarajevo",
+          "Africa/Windhoek",
+          "Africa/Cairo",
+          "Africa/Harare",
+          "Asia/Amman",
+          "Europe/Athens",
+          "Europe/Istanbul",
+          "Asia/Beirut",
+          "Europe/Helsinki",
+          "Asia/Jerusalem",
+          "Europe/Minsk",
+          "Asia/Baghdad",
+          "Europe/Moscow",
+          "Asia/Kuwait",
+          "Africa/Nairobi",
+          "Asia/Baku",
+          "Asia/Tbilisi",
+          "Asia/Yerevan",
+          "Asia/Dubai",
+          "Asia/Tehran",
+          "Asia/Kabul",
+          "Asia/Karachi",
+          "Asia/Oral",
+          "Asia/Yekaterinburg",
+          "Asia/Kolkata",
+          "Asia/Colombo",
+          "Asia/Kathmandu",
+          "Asia/Almaty",
+          "Asia/Yangon",
+          "Asia/Krasnoyarsk",
+          "Asia/Bangkok",
+          "Asia/Jakarta",
+          "Asia/Shanghai",
+          "Asia/Hong_Kong",
+          "Asia/Irkutsk",
+          "Asia/Kuala_Lumpur",
+          "Australia/Perth",
+          "Asia/Taipei",
+          "Asia/Seoul",
+          "Asia/Tokyo",
+          "Asia/Yakutsk",
+          "Australia/Adelaide",
+          "Australia/Darwin",
+          "Australia/Brisbane",
+          "Australia/Hobart",
+          "Australia/Sydney",
+          "Asia/Vladivostok",
+          "Pacific/Guam",
+          "Asia/Magadan",
+          "Pacific/Noumea",
+          "Pacific/Majuro",
+          "Pacific/Auckland",
+          "Pacific/Fiji",
+          "Pacific/Tongatapu"
+        ]
+      },
+      "ErrorCode": {
+        "type": "object",
+        "properties": {
+          "errorCode": {
+            "type": "integer",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1000,
+              1001,
+              1002,
+              1003,
+              1004,
+              1005,
+              1100,
+              1200
+            ],
+            "x-enum-descriptions": [
+              "0,Success",
+              "1000,Fail",
+              "1001,User or APP Key is unavailable",
+              "1002,API internal exception",
+              "1003,Lack parameter",
+              "1004,Basic Auth or APP Key is unavailable",
+              "1005,User or password is unavailable",
+              "1100,The input value is unavailable",
+              "1200,The input file is unavailable"
+            ]
+          }
+        }
+      },
+      "inline_response_200": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/DeviceInfo"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "inline_response_200_1": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/ApiKeyInfo"
+              }
+            }
+          }
+        ]
+      },
+      "admin_configuration_body": {
+        "required": [
+          "fileName"
+        ],
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/inline_response_200_2_data"
+              }
+            }
+          }
+        ]
+      },
+      "admin_firmware_body": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      },
+      "inline_response_200_3": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/inline_response_200_3_data"
+              }
+            }
+          }
+        ]
+      },
+      "inline_response_200_4": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/Wallpaper"
+              }
+            }
+          }
+        ]
+      },
+      "wallpaper_id_body": {
+        "type": "object",
+        "properties": {
+          "wallpaperImage": {
+            "type": "string",
+            "description": "Only accept png/jpeg. Its max width shall be 3840+100 and max height is 2400+100. Besides, its width to height ratio shall be between 1.5 and 2.0 (16:10).",
+            "format": "binary"
+          }
+        }
+      },
+      "inline_response_200_5": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/DisplaySetting"
+              }
+            }
+          }
+        ]
+      },
+      "inline_response_200_6": {
+        "required": [
+          "data"
+        ],
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/inline_response_200_6_data"
+              }
+            }
+          }
+        ]
+      },
+      "ip": {
+        "type": "string",
+        "oneOf": [
+          {
+            "format": "hostname"
+          },
+          {
+            "format": "ipv4"
+          }
+        ]
+      },
+      "inline_response_200_7": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "example": {
+              "data": "Asia/Taipei",
+              "errorCode": 0,
+              "isSuccess": true,
+              "model": "AS-201",
+              "rebootRequired": false
+            }
+          }
+        ]
+      },
+      "inline_response_200_8": {
+        "required": [
+          "data"
+        ],
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "string",
+                "description": "YYYY:MM::DDThh:mm:ss.sTZD. Follow the RFC3339. Refer to https://tools.ietf.org/html/rfc3339#section-5.6. date-time = full-date \"T\" full-time, where full-date = date-fullyear \"-\" date-month \"-\" date-mday and full-time = partial-time time-offset.",
+                "format": "date-time",
+                "example": "1970-01-01T10:05:08+01:00"
+              }
+            }
+          }
+        ]
+      },
+      "inline_response_200_9": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "example": {
+              "data": "01:02:ab:ea:05:11",
+              "errorCode": 0,
+              "isSuccess": true,
+              "model": "AS-201",
+              "rebootRequired": false
+            }
+          }
+        ]
+      },
+      "inline_response_200_10": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/EthernetSetting"
+              }
+            }
+          }
+        ]
+      },
+      "inline_response_200_11": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/WifiSetting"
+              }
+            }
+          }
+        ]
+      },
+      "inline_response_200_12": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GeneralResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "$ref": "#/components/schemas/PowerSetting"
+              }
+            }
+          }
+        ]
+      },
+      "inline_response_200_2_data": {
+        "type": "object",
+        "properties": {
+          "current": {
+            "pattern": "^\\d{1,2}.\\d{1,2}.\\d{1,3}.\\d{1,3}$",
+            "type": "string",
+            "description": "Current version",
+            "example": "1.0.0.100"
+          }
+        }
+      },
+      "inline_response_200_3_data": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "pattern": "^[0-9]{4}$",
+            "type": "string",
+            "example": "1234"
+          },
+          "type": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1,
+            "enum": [
+              0,
+              1,
+              2
+            ]
+          }
+        }
+      },
+      "inline_response_200_6_data": {
+        "required": [
+          "auto"
+        ],
+        "type": "object",
+        "properties": {
+          "auto": {
+            "type": "boolean",
+            "description": "Is auto time sync?",
+            "example": false
+          }
+        }
+      }
+    },
+    "responses": {
+      "ApiResponse": {
+        "description": "Success",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            },
+            "example": {
+              "errorCode": 0,
+              "data": "",
+              "isSuccess": true,
+              "model": "AS-201",
+              "rebootRequired": false
+            }
+          }
+        }
+      },
+      "ApiErrorResponse": {
+        "description": "HTTP ERROR (4xx or 5xx). The request URL is invalid or its method is not supported or there is no response for the service.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/HTTPErrorResponse"
+            },
+            "example": {
+              "data": "",
+              "errorCode": 404,
+              "errorMsg": "Not Found",
+              "isSuccess": false,
+              "model": "AS-201",
+              "rebootRequired": false
+            }
+          }
+        }
+      },
+      "BadRequest": {
+        "description": "The requested url is invalid.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The specified resource was not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "Too many requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            }
+          }
+        }
+      },
+      "InternalServerError": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            }
+          }
+        }
+      },
+      "NotImplemented": {
+        "description": "Not Implemented",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            }
+          }
+        }
+      },
+      "ServiceUnavailable": {
+        "description": "Service Unavailable ",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            }
+          }
+        }
+      },
+      "DefaultError": {
+        "description": "unexpected error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/GeneralResponse"
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "uuidParameter": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "example": "0729a580-2240-11e6-9eb5-0002a5d5c51b"
+        }
+      },
+      "idParameter": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "style": "simple",
+        "explode": false,
+        "schema": {
+          "maximum": 5,
+          "minimum": 2,
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "userParameter": {
+        "name": "username",
+        "in": "query",
+        "required": true,
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pwdParameter": {
+        "name": "password",
+        "in": "query",
+        "required": false,
+        "style": "form",
+        "explode": true,
+        "schema": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "examples": {
+      "login_post_success_response": {
+        "summary": "Success",
+        "value": {
+          "errorCode": 0,
+          "isSuccess": true,
+          "model": "AS-201",
+          "data": {
+            "expiredTime": 1632847374,
+            "scope": "full",
+            "token": "asdfzxcv1234qwer"
+          }
+        }
+      },
+      "name_get_success_response": {
+        "summary": "Success",
+        "value": {
+          "data": "AS201-00aa",
+          "errorCode": 0,
+          "isSuccess": true,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "default_put_success_response": {
+        "summary": "Success",
+        "value": {
+          "data": "",
+          "errorCode": 0,
+          "isSuccess": true,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "failed_1000": {
+        "summary": "Failed",
+        "value": {
+          "data": "",
+          "errorCode": 1000,
+          "errorMsg": "Failed.",
+          "isSuccess": false,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "failed_1001": {
+        "summary": "User or APP Key is unavailable",
+        "value": {
+          "data": "",
+          "errorCode": 1001,
+          "errorMsg": "User or APP Key is unavailable.",
+          "isSuccess": false,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "failed_1002": {
+        "summary": "API internal exception",
+        "value": {
+          "data": "",
+          "errorCode": 1002,
+          "errorMsg": "API internal exception.",
+          "isSuccess": false,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "failed_1003": {
+        "summary": "Lack parameter",
+        "value": {
+          "data": "",
+          "errorCode": 1003,
+          "errorMsg": "Lack parameter.",
+          "isSuccess": false,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "failed_1004": {
+        "summary": "Basic Auth or APP Key is unavailable",
+        "value": {
+          "data": "",
+          "errorCode": 1004,
+          "errorMsg": "Basic Auth or APP Key is unavailable.",
+          "isSuccess": false,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "failed_1005": {
+        "summary": "User or password is unavailable",
+        "value": {
+          "data": "",
+          "errorCode": 1005,
+          "errorMsg": "User or password is unavailable.",
+          "isSuccess": false,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "failed_1100": {
+        "summary": "The input value is unavailable",
+        "value": {
+          "data": "",
+          "errorCode": 1100,
+          "errorMsg": "The input value is unavailable.",
+          "isSuccess": false,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      },
+      "failed_1200": {
+        "summary": "The input file format is unavailable",
+        "value": {
+          "data": "",
+          "errorCoe": 1200,
+          "errorMsg": "The input file format is unavailable.",
+          "isSuccess": false,
+          "model": "AS-201",
+          "rebootRequired": false
+        }
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "description": "The API Key for issuing a RESTful API request.",
+        "name": "X-API-KEY",
+        "in": "header"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "description": "Basic HTTP security authentication. Allowed headers: 'Authorization: Basic <api_key>' or 'Authorization: Basic XXXXXX', where XXXXX is the base64 encoded string of username:password.",
+        "scheme": "basic"
+      }
+    }
+  }
+}
