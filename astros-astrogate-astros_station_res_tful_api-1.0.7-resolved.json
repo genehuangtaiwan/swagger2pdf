@@ -2986,11 +2986,6 @@
       "AccessTokenResponse": {
         "type": "object",
         "properties": {
-          "token": {
-            "pattern": "^[A-Za-z0-9]{16}$",
-            "type": "string",
-            "example": "zxcvfdsa1234rewq"
-          },
           "expiredTime": {
             "type": "integer",
             "description": "Epoch time; It is the number of seconds that have elapsed since the Unix epoch, minus leap seconds; the Unix epoch is 00:00:00 UTC on 1 January 1970. -1 indicates never.",
@@ -3004,6 +2999,11 @@
               "full",
               "view_only"
             ]
+          },
+          "token": {
+            "pattern": "^[A-Za-z0-9]{16}$",
+            "type": "string",
+            "example": "zxcvfdsa1234rewq"
           }
         }
       },
@@ -3058,6 +3058,48 @@
             "type": "boolean",
             "description": "Is the file confidential?",
             "example": false
+          }
+        }
+      },
+      "DeviceInfo": {
+        "type": "object",
+        "properties": {
+          "ethMacAddress": {
+            "pattern": "^([0-9a-f]{2}:){5}([0-9a-f]{2})$",
+            "type": "string",
+            "example": "01:02:a1:bc:12:dd"
+          },
+          "fwVersion": {
+            "pattern": "^\\d{1,2}.\\d{1,2}.\\d{1,3}.\\d{1,3}$",
+            "type": "string",
+            "description": "major.minor.patch.build",
+            "example": "1.0.3.123"
+          },
+          "model": {
+            "type": "string",
+            "example": "AS-201"
+          },
+          "name": {
+            "maxLength": 16,
+            "minLength": 1,
+            "pattern": "^[A-Za-z\\d\\-]{1,16}$",
+            "type": "string",
+            "example": "AS201-00aa"
+          },
+          "sn": {
+            "type": "string",
+            "example": "AS201WW123455555"
+          },
+          "status": {
+            "type": "string",
+            "description": "defined status: offline, standby, connected, sharing, sleeping, updating. The field may contains multiple status which would be separated by \",\".",
+            "example": "online"
+          },
+          "uptime": {
+            "type": "integer",
+            "description": "uptime in seconds after booting up.",
+            "format": "int64",
+            "example": 5555
           }
         }
       },
@@ -3217,6 +3259,10 @@
       "HDMISetting": {
         "type": "object",
         "properties": {
+          "cec": {
+            "type": "boolean",
+            "example": false
+          },
           "resolution": {
             "type": "integer",
             "description": "0(Auto), 1(3840x2160), 2(1920x1080), 3(1280x720), 4(1024x768), 5(1920x1200)",
@@ -3230,16 +3276,16 @@
               4,
               5
             ]
-          },
-          "cec": {
-            "type": "boolean",
-            "example": false
           }
         }
       },
       "VGASetting": {
         "type": "object",
         "properties": {
+          "enable": {
+            "type": "boolean",
+            "example": false
+          },
           "resolution": {
             "type": "integer",
             "description": "2(1920x1080), 3(1280x720), 4(1024x768)",
@@ -3250,10 +3296,6 @@
               3,
               4
             ]
-          },
-          "enable": {
-            "type": "boolean",
-            "example": false
           }
         }
       },
@@ -3359,55 +3401,11 @@
       "WifiSetting": {
         "type": "object",
         "properties": {
-          "mode": {
-            "type": "string",
-            "example": "AP",
-            "enum": [
-              "AP",
-              "STA",
-              "false"
-            ]
-          },
-          "ssid": {
-            "pattern": "^[A-Za-z\\d\\-]{1,16}$",
-            "type": "string",
-            "example": "AS201-00aa"
-          },
-          "hideSSID": {
-            "type": "boolean",
-            "example": false
-          },
-          "security": {
-            "type": "integer",
-            "description": "wireless authentication method. 0(none), 1(WPA2-PSK)",
-            "format": "int32",
-            "example": 0,
-            "enum": [
-              0,
-              1
-            ]
-          },
-          "password": {
-            "pattern": "^[A-Za-z0-9]{8,16}$",
-            "type": "string",
-            "description": "The authorized password of WPA2",
-            "example": "12345678"
-          },
           "band": {
             "type": "integer",
             "description": "802.11 freqency band. 1: 2.4GHz; 1: 5GHz",
             "format": "int32",
             "example": 1,
-            "enum": [
-              0,
-              1
-            ]
-          },
-          "networking_mode": {
-            "type": "integer",
-            "description": "The networking mode: 0(NAT), 1(Bridge)",
-            "format": "int32",
-            "example": 0,
             "enum": [
               0,
               1
@@ -3423,6 +3421,50 @@
               1,
               2
             ]
+          },
+          "hideSSID": {
+            "type": "boolean",
+            "example": false
+          },
+          "mode": {
+            "type": "string",
+            "example": "AP",
+            "enum": [
+              "AP",
+              "STA",
+              "false"
+            ]
+          },
+          "networking_mode": {
+            "type": "integer",
+            "description": "The networking mode: 0(NAT), 1(Bridge)",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "password": {
+            "pattern": "^[A-Za-z0-9]{8,16}$",
+            "type": "string",
+            "description": "The authorized password of WPA2",
+            "example": "12345678"
+          },
+          "security": {
+            "type": "integer",
+            "description": "wireless authentication method. 0(none), 1(WPA2-PSK)",
+            "format": "int32",
+            "example": 0,
+            "enum": [
+              0,
+              1
+            ]
+          },
+          "ssid": {
+            "pattern": "^[A-Za-z\\d\\-]{1,16}$",
+            "type": "string",
+            "example": "AS201-00aa"
           }
         }
       },
@@ -3444,21 +3486,6 @@
       "StaticIPConfiguration": {
         "type": "object",
         "properties": {
-          "ip": {
-            "type": "string",
-            "format": "ipv4",
-            "example": "192.168.1.123"
-          },
-          "mask": {
-            "type": "string",
-            "format": "ipv4",
-            "example": "255.255.255.0"
-          },
-          "gateway": {
-            "type": "string",
-            "format": "ipv4",
-            "example": "192.168.1.1"
-          },
           "dns1": {
             "type": "string",
             "format": "ipv4",
@@ -3468,6 +3495,21 @@
             "type": "string",
             "format": "ipv4",
             "example": "8.8.8.8"
+          },
+          "gateway": {
+            "type": "string",
+            "format": "ipv4",
+            "example": "192.168.1.1"
+          },
+          "ip": {
+            "type": "string",
+            "format": "ipv4",
+            "example": "192.168.1.123"
+          },
+          "mask": {
+            "type": "string",
+            "format": "ipv4",
+            "example": "255.255.255.0"
           }
         }
       },
@@ -3637,10 +3679,7 @@
               "data": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/DeviceStaticInfo"
-                  },
-                  {
-                    "$ref": "#/components/schemas/DeviceMutableInfo"
+                    "$ref": "#/components/schemas/DeviceInfo"
                   }
                 ]
               }
@@ -3901,6 +3940,11 @@
       "inline_response_200_3_data": {
         "type": "object",
         "properties": {
+          "code": {
+            "pattern": "^[0-9]{4}$",
+            "type": "string",
+            "example": "1234"
+          },
           "type": {
             "type": "integer",
             "format": "int32",
@@ -3910,11 +3954,6 @@
               1,
               2
             ]
-          },
-          "code": {
-            "pattern": "^[0-9]{4}$",
-            "type": "string",
-            "example": "1234"
           }
         }
       },
