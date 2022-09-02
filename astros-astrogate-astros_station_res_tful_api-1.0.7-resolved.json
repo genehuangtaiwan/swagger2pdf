@@ -3010,11 +3010,6 @@
       "ApiKeyInfo": {
         "type": "object",
         "properties": {
-          "token": {
-            "pattern": "^[A-Za-z0-9]{16}$",
-            "type": "string",
-            "example": "zxcvfdsa1234rewq"
-          },
           "expiredTime": {
             "type": "integer",
             "description": "Epoch time; It is the number of seconds that have elapsed since the Unix epoch, minus leap seconds; the Unix epoch is 00:00:00 UTC on 1 January 1970. -1 indicates never.",
@@ -3028,6 +3023,11 @@
               "full",
               "view_only"
             ]
+          },
+          "token": {
+            "pattern": "^[A-Za-z0-9]{16}$",
+            "type": "string",
+            "example": "zxcvfdsa1234rewq"
           }
         }
       },
@@ -4144,9 +4144,9 @@
           "isSuccess": true,
           "model": "AS-201",
           "data": {
-            "token": "asdfzxcv1234qwer",
             "expiredTime": 1632847374,
-            "scope": "full"
+            "scope": "full",
+            "token": "asdfzxcv1234qwer"
           }
         }
       },
